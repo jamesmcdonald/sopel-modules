@@ -1,5 +1,5 @@
 from sopel import module
-from datetime import datetime, timezone
+from datetime import datetime
 import os
 import codecs
 from urllib.parse import quote
@@ -28,7 +28,7 @@ def worklog(bot, trigger):
     worklog_path = bot.config.worklog.worklog_path
     worklog_baseurl = bot.config.worklog.worklog_baseurl
 
-    now = datetime.now(timezone.utc)
+    now = datetime.utcnow()
     logpath = os.path.join(worklog_path, trigger.sender, str(now.year))
     logfilename = '{}-{:04}-{:02}.log'.format(trigger.sender, now.year, now.month)
     logurl = os.path.join(worklog_baseurl, quote(trigger.sender), str(now.year)) + '/'
