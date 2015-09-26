@@ -2,7 +2,6 @@ from sopel import module
 from datetime import datetime
 import os
 import codecs
-from urllib.parse import quote
 """Log work done in log files.
 
 This provides a simple way to allow users on a channel to
@@ -31,7 +30,7 @@ def worklog(bot, trigger):
     now = datetime.utcnow()
     logpath = os.path.join(worklog_path, trigger.sender, str(now.year))
     logfilename = '{}-{:04}-{:02}.log'.format(trigger.sender, now.year, now.month)
-    logurl = os.path.join(worklog_baseurl, quote(trigger.sender), str(now.year)) + '/'
+    logurl = os.path.join(worklog_baseurl, trigger.sender.replace('#', '%23'), str(now.year)) + '/'
 
     if trigger == '@wl' or trigger == '.wl':
         bot.reply('Worklog messages are logged to {}'.format(logurl))
@@ -55,4 +54,4 @@ def worklog(bot, trigger):
         trigger.nick,
         msg))
     logfile.close()
-    bot.reply("Your glorious efforts are logged to {}".format(os.path.join(logurl,quote(logfilename))))
+    bot.reply("Your glorious efforts are logged to {}".format(os.path.join(logurl,logfilename.replace('#', '%23'))))
